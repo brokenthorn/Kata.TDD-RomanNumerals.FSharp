@@ -1,6 +1,7 @@
 ﻿module App.Lib
 
-let toRomanNumeral (num: uint32): string =
+/// Takes an unsigned 32bit integer and converts it to a Roman numeral string.
+let toRomanNumeral (num: uint32) : string =
     match num with
     | 0u -> ""
     | 1u -> "I"
