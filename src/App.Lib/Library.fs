@@ -1,19 +1,32 @@
 ﻿module App.Lib
 
-let private standardArabicToRomanPairs = [|
-    (5u, "V")
-    (1u, "I")
-|]
+let private standardArabicToRomanPairs =
+    [| (1000u, "M")
+       (900u, "CM")
+       (500u, "D")
+       (400u, "CD")
+       (100u, "C")
+       (90u, "XC")
+       (50u, "L")
+       (40u, "XL")
+       (10u, "X")
+       (9u, "IX")
+       (5u, "V")
+       (4u, "IV")
+       (1u, "I") |]
 
-let private getFactor (arabicNumber: uint32) =
+/// Gets the Arabic number and Roman numeral pair corresponding to the passed in Arabic number.
+/// The passed Arabic number must match one of the standard Arabic to Roman numeral pairs, otherwise the function will throw `System.Collections.Generic.KeyNotFoundException`.
+let private getConversionPair (inArabic: uint32) =
     Array.find
-    <| fun pair -> (pair |> fst) <= arabicNumber
+    <| fun (arabic, _) -> arabic <= inArabic
     <| standardArabicToRomanPairs
 
 /// Takes an unsigned Arabic number and converts it to a Roman numeral.
-let rec toRomanNumeral (arabicNumber: uint32) : string =
-    match arabicNumber with
+let rec toRomanNumeral (inArabic: uint32) : string =
+    match inArabic with
     | 0u -> ""
     | _ ->
-        let (arabicPair, romanPair) = getFactor arabicNumber
-        romanPair + toRomanNumeral (arabicNumber - arabicPair)
+        let (arabic, roman) = getConversionPair inArabic
+        let remArabicToConvert = inArabic - arabic
+        roman + toRomanNumeral remArabicToConvert
