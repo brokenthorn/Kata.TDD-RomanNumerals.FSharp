@@ -26,6 +26,8 @@ let private getConversionPair (inArabic: uint32) =
 let rec toRomanNumeral (inArabic: uint32) : string =
     match inArabic with
     | 0u -> ""
+    | x when x > 3999u ->
+        failwith (sprintf "Cannot convert numbers greater than 3999 to Roman numeral, tried to convert %u" x)
     | _ ->
         let (arabic, roman) = getConversionPair inArabic
         let remArabicToConvert = inArabic - arabic

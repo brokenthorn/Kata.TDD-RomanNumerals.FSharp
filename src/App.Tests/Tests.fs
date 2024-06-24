@@ -3,6 +3,12 @@ module Tests
 open Xunit
 open App.Lib
 
+[<Fact>]
+let ``Fails when converting numbers greater than 3999`` () =
+    for i in 4000u .. 5000u do
+        Assert.ThrowsAny<System.Exception>(fun () -> (toRomanNumeral i) |> ignore)
+        |> ignore
+
 /// Test data that maps an Arabic number to the correct Roman numeral.
 let testData: obj[] list =
     // Romans didn't have a zero.
